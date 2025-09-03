@@ -61,7 +61,7 @@ export default function ReminderCard() {
     return (
         <View style={styles.reminderCard}>
             <View style={styles.reminderHeader}>
-                <Text style={styles.reminderTitle}>Dnevni podsetnik</Text>
+                <Text style={styles.reminderTitle}>Daily reminder</Text>
                 <Switch
                     value={reminderEnabled}
                     onValueChange={onToggle}

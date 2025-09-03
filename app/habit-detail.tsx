@@ -74,7 +74,7 @@ export default function HabitDetailScreen() {
             </View>
             <View style={styles.logContent}>
                 <Text style={[styles.logDate, { fontSize: moderateScale(14) }]}>
-                    {new Date(item.date).toLocaleDateString('sr-RS', {
+                    {new Date(item.date).toLocaleDateString('en-US', {
                         weekday: 'long',
                         year: 'numeric',
                         month: 'long',
