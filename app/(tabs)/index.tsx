@@ -138,7 +138,7 @@ export default function HomeScreen() {
                 <View style={styles.emptyState}>
                     <Text style={[styles.emptyTitle, { fontSize: moderateScale(24) }]}>No habits</Text>
                     <Text style={[styles.emptyText, { fontSize: moderateScale(16) }]}>
-                        Add your first routine using the &#34;Add ;&#34 button at the bottom.
+                        Add your first routine using the &#34;Add" button at the bottom.
                     </Text>
                 </View>
             ) : (

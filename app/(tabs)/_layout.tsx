@@ -2,8 +2,10 @@ import { Tabs } from 'expo-router';
 import { Plus, ChartBar as BarChart3 } from 'lucide-react-native';
 import { scale, verticalScale} from "@/utils/scaling";
 import {HapticTab} from "@/components/HapticTab";
+import {useSafeAreaInsets} from "react-native-safe-area-context";
 
 export default function TabLayout() {
+    const inset = useSafeAreaInsets();
     return (
         <Tabs
             screenOptions={{
@@ -15,8 +17,8 @@ export default function TabLayout() {
                 tabBarStyle: {
                     backgroundColor: '#FFFFFF',
                     borderTopColor: '#E5E7EB',
-                    height: verticalScale(80),
-                    paddingBottom: verticalScale(20),
+                    height: verticalScale(60) + inset.bottom, // add inset
+                    paddingBottom: inset.bottom > 0 ? inset.bottom : verticalScale(12), // dynamic padding
                     paddingTop: verticalScale(10),
                 },
             }}>
