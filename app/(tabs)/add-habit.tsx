@@ -22,6 +22,52 @@ import MyHabits from "@/components/myHabits";
 import {isTablet, moderateScale, scale, verticalScale} from "@/utils/scaling";
 import ReminderCard from "@/components/reminderCard";
 
+type ListHeaderProps = {
+    error: string | null;
+    clearError: () => void;
+    habitName: string;
+    setHabitName: (s: string) => void;
+    handlePickPopular: (s: string) => void;
+};
+
+const ListHeader = React.memo(function ListHeader({
+    error,
+    clearError,
+    habitName,
+    setHabitName,
+    handlePickPopular,
+}: ListHeaderProps) {
+    return (
+        <View style={styles.content}>
+            {error && (
+                <View style={styles.errorContainer}>
+                    <Text style={styles.errorText}>{error}</Text>
+                    <TouchableOpacity onPress={clearError} style={styles.errorButton}>
+                        <Text style={styles.errorButtonText}>Close</Text>
+                    </TouchableOpacity>
+                </View>
+            )}
+
+            <View style={styles.form}>
+                <Text style={styles.label}>Habit name</Text>
+                <TextInput
+                    style={styles.input}
+                    value={habitName}
+                    onChangeText={setHabitName}
+                    placeholder="Reading, exercise, meditation etc."
+                    placeholderTextColor="#9CA3AF"
+                    autoFocus
+                    maxLength={50}
+                />
+                <Text style={styles.characterCount}>{habitName.length}/50 characters</Text>
+            </View>
+
+            <ReminderCard />
+            <PopularHabitsList onPick={handlePickPopular} />
+        </View>
+    );
+});
+
 export default function AddHabitScreen() {
     const [habitName, setHabitName] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -74,49 +120,6 @@ export default function AddHabitScreen() {
             setIsSubmitting(false);
         }
     };
-
-    const ListHeader = React.memo(function ListHeader({
-                                                          error, clearError, habitName, setHabitName, handlePickPopular
-                                                      }: {
-        error: string | null,
-        clearError: () => void,
-        habitName: string,
-        setHabitName: (s: string) => void,
-        handlePickPopular: (s: string) => void
-    }) {
-        return (
-            <View style={styles.content}>
-                {error && (
-                    <View style={styles.errorContainer}>
-                        <Text style={styles.errorText}>{error}</Text>
-                        <TouchableOpacity onPress={clearError} style={styles.errorButton}>
-                            <Text style={styles.errorButtonText}>Close</Text>
-                        </TouchableOpacity>
-                    </View>
-                )}
-
-                {/* input form */}
-                <View style={styles.form}>
-                    <Text style={styles.label}>Habit name</Text>
-                    <TextInput
-                        style={styles.input}
-                        value={habitName}
-                        onChangeText={onChangeHabitName}
-                        placeholder="Reading, exercise, meditation etc."
-                        placeholderTextColor="#9CA3AF"
-                        autoFocus
-                        maxLength={50}
-                    />
-                    <Text style={styles.characterCount}>{habitName.length}/50 characters</Text>
-                </View>
-
-
-                <ReminderCard />
-                <PopularHabitsList onPick={handlePickPopular} />
-            </View>
-        );
-    });
-
 
     return (
         <View style={styles.container}>
