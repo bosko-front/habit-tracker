@@ -9,6 +9,7 @@ import {
     KeyboardAvoidingView,
     Platform,
     FlatList,
+    ScrollView,
 } from 'react-native';
 import {useRouter} from 'expo-router';
 import {LinearGradient} from 'expo-linear-gradient';
@@ -28,6 +29,10 @@ export default function AddHabitScreen() {
     const inset = useSafeAreaInsets();
     const {addHabit, error, clearError} = useHabitStore();
     const handlePickPopular = (v: string) => setHabitName(v);
+
+
+    const onChangeHabitName = React.useCallback(setHabitName, []);
+
 
     const handleSubmit = async () => {
         if (!habitName.trim()) {
@@ -70,66 +75,78 @@ export default function AddHabitScreen() {
         }
     };
 
-    const listHeaderComponent = () => (
-        <View style={styles.content}>
-            {error && (
-                <View style={styles.errorContainer}>
-                    <Text style={styles.errorText}>{error}</Text>
-                    <TouchableOpacity onPress={clearError} style={styles.errorButton}>
-                        <Text style={styles.errorButtonText}>Close</Text>
-                    </TouchableOpacity>
+    const ListHeader = React.memo(function ListHeader({
+                                                          error, clearError, habitName, setHabitName, handlePickPopular
+                                                      }: {
+        error: string | null,
+        clearError: () => void,
+        habitName: string,
+        setHabitName: (s: string) => void,
+        handlePickPopular: (s: string) => void
+    }) {
+        return (
+            <View style={styles.content}>
+                {error && (
+                    <View style={styles.errorContainer}>
+                        <Text style={styles.errorText}>{error}</Text>
+                        <TouchableOpacity onPress={clearError} style={styles.errorButton}>
+                            <Text style={styles.errorButtonText}>Close</Text>
+                        </TouchableOpacity>
+                    </View>
+                )}
+
+                {/* input form */}
+                <View style={styles.form}>
+                    <Text style={styles.label}>Habit name</Text>
+                    <TextInput
+                        style={styles.input}
+                        value={habitName}
+                        onChangeText={onChangeHabitName}
+                        placeholder="Reading, exercise, meditation etc."
+                        placeholderTextColor="#9CA3AF"
+                        autoFocus
+                        maxLength={50}
+                    />
+                    <Text style={styles.characterCount}>{habitName.length}/50 characters</Text>
                 </View>
-            )}
 
-            {/* input form */}
-            <View style={styles.form}>
-                <Text style={styles.label}>Habit name</Text>
-                <TextInput
-                    style={styles.input}
-                    value={habitName}
-                    onChangeText={setHabitName}
-                    placeholder="Reading, exercise, meditation etc."
-                    placeholderTextColor="#9CA3AF"
-                    autoFocus
-                    maxLength={50}
-                />
-                <Text style={styles.characterCount}>{habitName.length}/50 characters</Text>
+
+                <ReminderCard />
+                <PopularHabitsList onPick={handlePickPopular} />
             </View>
-
-            {/* reminder */}
-            <ReminderCard/>
-            <PopularHabitsList onPick={handlePickPopular}/>
-        </View>
-    );
+        );
+    });
 
 
     return (
         <View style={styles.container}>
             <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                style={styles.keyboardView}>
+                behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+                style={styles.keyboardView}
+            >
                 <LinearGradient
                     colors={['#10B981', '#059669']}
-                    style={[styles.header, {paddingTop: inset.top + verticalScale(20)}]}>
+                    style={[styles.header, { paddingTop: inset.top + verticalScale(20) }]}
+                >
                     <Text style={styles.headerTitle}>Add New Habit</Text>
-                    <Text style={styles.headerSubtitle}>
-                        Create positive routines
-                    </Text>
+                    <Text style={styles.headerSubtitle}>Create positive routines</Text>
                 </LinearGradient>
 
-
-                <FlatList
-                    data={[{}]}
-                    keyExtractor={(_, i) => String(i)}
-                    renderItem={null}
-                    ListHeaderComponent={listHeaderComponent}
-                    ListFooterComponent={
-                        <View style={{marginBottom: verticalScale(80)}}>
-                            <MyHabits onPick={(name) => setHabitName(name)}/>
-                        </View>
-                    }
+                <ScrollView
+                    keyboardShouldPersistTaps="handled"
                     showsVerticalScrollIndicator={false}
-                />
+                    contentContainerStyle={{ paddingBottom: verticalScale(80) }}
+                >
+                    <ListHeader
+                        error={error}
+                        clearError={clearError}
+                        habitName={habitName}
+                        setHabitName={setHabitName}
+                        handlePickPopular={handlePickPopular}
+                    />
+
+                    <MyHabits onPick={(name) => setHabitName(name)} />
+                </ScrollView>
 
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity
@@ -157,6 +174,7 @@ export default function AddHabitScreen() {
             </KeyboardAvoidingView>
         </View>
     );
+
 }
 
 const styles = StyleSheet.create({
