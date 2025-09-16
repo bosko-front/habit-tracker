@@ -14,6 +14,7 @@ import { useHabitStore } from '@/stores/habitStore';
 import { initializeDatabase } from '@/lib/database';
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {moderateScale, scale} from "@/utils/scaling";
+import { HabitWithStats } from '@/types';
 
 export default function HomeScreen() {
     const router = useRouter();
@@ -65,7 +66,7 @@ export default function HomeScreen() {
         router.push(`/habit-detail?id=${habitId}`);
     };
 
-    const renderHabitItem = ({ item }: { item: any }) => (
+    const renderHabitItem = ({ item }: { item: HabitWithStats }) => (
         <TouchableOpacity
             style={styles.habitCard}
             onPress={() => handleHabitPress(item.id)}

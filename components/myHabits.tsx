@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import { ChevronRight } from 'lucide-react-native';
 import { useHabitStore } from '@/stores/habitStore';
 import { scale, verticalScale, moderateScale } from '@/utils/scaling';
+import { HabitWithStats } from '@/types';
 
 export default function MyHabits({
                                      onPick,
@@ -38,7 +39,7 @@ export default function MyHabits({
                     ItemSeparatorComponent={() => (
                         <View style={{ height: verticalScale(8) }} />
                     )}
-                    renderItem={({ item }) => (
+                    renderItem={({ item }: { item: HabitWithStats }) => (
                         <TouchableOpacity
                             activeOpacity={0.8}
                             onPress={() => goToDetails(item.id)}

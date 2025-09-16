@@ -6,9 +6,9 @@ const guidelineBaseWidth = 375;
 const guidelineBaseHeight = 812;
 
 
-const scale = (size:any) => (width / guidelineBaseWidth) * size;
-const verticalScale = (size:any) => (height / guidelineBaseHeight) * size;
-const moderateScale = (size:any, factor = 0.5) => size + (scale(size) - size) * factor;
+const scale = (size: number): number => (width / guidelineBaseWidth) * size;
+const verticalScale = (size: number): number => (height / guidelineBaseHeight) * size;
+const moderateScale = (size: number, factor: number = 0.5): number => size + (scale(size) - size) * factor;
 const isTablet = width > 768;
 const isAndroid = Platform.OS === 'android';
 

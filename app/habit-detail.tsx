@@ -8,24 +8,7 @@ import InsightsCard from '@/components/charts/InsightsCard';
 import { calculateHabitAnalytics } from '@/utils/habitAnalytics';
 import { scale, moderateScale } from '@/utils/scaling';
 import {useHabitStore} from "@/stores/habitStore";
-import {HabitAnalytics} from "@/types";
-
-// Types matching your Zustand store
-interface HabitLog {
-    id: number;
-    habit_id: number;
-    date: string;
-    status: number; // 0 = not completed, 1 = completed
-}
-
-interface HabitWithStats {
-    id: number;
-    name: string;
-    created_at: string;
-    total_completions: number;
-    completed_today: boolean;
-    current_streak: number;
-}
+import {HabitAnalytics, HabitLog, HabitWithStats} from "@/types";
 
 
 export default function HabitDetailScreen() {

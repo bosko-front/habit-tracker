@@ -1,5 +1,5 @@
 import * as SQLite from 'expo-sqlite';
-import { Habit, HabitLog } from '@/types';
+import { Habit, HabitLog, HabitWithStats } from '@/types';
 
 const DATABASE_NAME = 'habits.db';
 
@@ -118,7 +118,7 @@ export const getHabitLogs = async (habitId: number): Promise<HabitLog[]> => {
     return result as HabitLog[];
 };
 
-export const getHabitsWithStats = async (): Promise<any[]> => {
+export const getHabitsWithStats = async (): Promise<HabitWithStats[]> => {
     const database = getDatabase();
     const today = new Date().toISOString().split('T')[0];
 
@@ -163,7 +163,7 @@ export const getHabitsWithStats = async (): Promise<any[]> => {
         ORDER BY h.created_at DESC
     `, [today]);
 
-    return result;
+    return result as HabitWithStats[];
 };
 
 export const getTodayDate = (): string => {
