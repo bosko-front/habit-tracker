@@ -58,9 +58,9 @@ Key screen:
 
 ## 📸 Screenshots
 Add your screenshots or GIFs here to showcase the experience.
-- ![Home screen](images/home.png "Home screen")
-  ![Habit detail with analytics](images/detail.png "Habit detail")
-  ![Reminder example](images/notifications.png "Reminder example")
+- <img src="images/home.png" alt="Home screen" width="150" height="300" />
+  <img src="images/detail.png" alt="Habit detail with analytics" width="150" height="300" />
+  <img src="images/notifications.png" alt="Reminder example" width="150" height="300" />
 ## 🚀 Getting Started
 Prerequisites
 - Node.js LTS
