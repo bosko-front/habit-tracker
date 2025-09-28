@@ -77,8 +77,6 @@ export default function AddHabitScreen() {
     const handlePickPopular = (v: string) => setHabitName(v);
 
 
-    const onChangeHabitName = React.useCallback(setHabitName, []);
-
 
     const handleSubmit = async () => {
         if (!habitName.trim()) {

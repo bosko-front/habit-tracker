@@ -1,15 +1,17 @@
 import React, { useMemo, useState} from "react";
-import {View, Text, Switch, TouchableOpacity, StyleSheet} from "react-native";
+import {View, Text, Switch, TouchableOpacity, StyleSheet, useColorScheme} from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 import {disableDailyReminder, scheduleDailyReminder} from "@/lib/notifications";
 import {useReminderStore} from "@/stores/reminderStore";
 import { moderateScale, scale, verticalScale} from "@/utils/scaling";
+import {useSafeAreaInsets} from "react-native-safe-area-context";
 
 
 export default function ReminderCard() {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const {enabled: reminderEnabled, hour, minute, setEnabled, setTime} = useReminderStore();
+    const inset = useSafeAreaInsets();
 
 
     const showDatePicker = () => setDatePickerVisibility(true);
@@ -83,6 +85,7 @@ export default function ReminderCard() {
                 isVisible={isDatePickerVisible}
                 mode="time"
                 is24Hour
+                themeVariant="light"
                 pickerContainerStyleIOS={{
                     alignSelf: "center",
                     width: 360,
@@ -93,6 +96,14 @@ export default function ReminderCard() {
                 date={reminderTime}
                 onConfirm={handleConfirm}
                 onCancel={hideDatePicker}
+                customCancelButtonIOS={(props) => (
+                    <TouchableOpacity
+                        onPress={props.onPress} // required: closes the picker
+                        style={[styles.cancelButton,{marginBottom:inset.bottom + scale(12)}]}
+                    >
+                        <Text style={styles.cancelButtonText}>Cancel</Text>
+                    </TouchableOpacity>
+                )}
             />
         </View>
     );
@@ -150,6 +161,18 @@ const styles = StyleSheet.create({
     changeBtn: {
         fontSize: moderateScale(14),
         textDecorationLine: "underline"
+    },
+    cancelButton: {
+        paddingVertical: scale(12),
+        alignItems: "center",
+        backgroundColor: "#fff",
+        borderRadius: scale(10),
+        marginHorizontal: scale(10),
+    },
+    cancelButtonText: {
+        fontSize: scale(18),
+        color: "#007AFF",
+        fontWeight: "600",
     },
 
 })
